@@ -317,6 +317,13 @@
   @media (max-width: 768px) {
     .summary { grid-template-columns: repeat(2, 1fr); }
     header { flex-wrap: wrap; }
+    .card-value { font-size: 15px; }
+    .card-label { font-size: 10px; }
+    .card-sub { font-size: 10px; }
+    .tab { font-size: 11px; padding: 6px 10px; }
+    td { font-size: 11px; padding: 8px 10px; }
+    th { font-size: 10px; padding: 10px 10px; }
+    .badge { font-size: 10px; padding: 2px 7px; }
   }
 </style>
 </head>
@@ -347,8 +354,8 @@
   <div class="filter-tabs">
     <button class="tab active" data-filter="all">전체</button>
     <button class="tab" data-filter="미완료">🔴 미입금</button>
-    <button class="tab" data-filter="완료">🟢 완료</button>
     <button class="tab" data-filter="쉐어미입금">💜 수익쉐어 미입금</button>
+    <button class="tab" data-filter="완료">🟢 완료</button>
   </div>
   <button class="btn-add" onclick="openAddModal()">+ 프로젝트 추가</button>
 </div>
