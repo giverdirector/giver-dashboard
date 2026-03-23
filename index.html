@@ -363,8 +363,8 @@
     <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text-muted)">2023.04 ~ 2025.04</div>
   </div>
   <div class="page-tabs">
-    <button class="ptab active" data-page="income">💰 입금 체크</button>
-    <button class="ptab" data-page="stats">📊 매출 통계</button>
+    <button class="ptab active" id="tabIncome" onclick="switchPage('income')">💰 입금 체크</button>
+    <button class="ptab" id="tabStats" onclick="switchPage('stats')">📊 매출 통계</button>
   </div>
 </header>
 
@@ -577,6 +577,10 @@ function renderSummary() {
     <div class="card">
       <div class="card-label">수익쉐어 입금예정</div>
       <div class="card-value pending">${shareUnpaid.length}건 · ${fmt(shareUnpaidAmt)}</div>
+    </div>
+    <div class="card" style="grid-column:1/-1;border-color:var(--accent);background:rgba(160,120,80,0.08)">
+      <div class="card-label">총합</div>
+      <div class="card-value" style="color:var(--accent2)">${fmt(unpaidAmt + shareUnpaidAmt)}</div>
     </div>
   `;
 }
@@ -948,31 +952,24 @@ function renderStats() {
 }
 
 // 페이지 탭 이벤트
-window.addEventListener('DOMContentLoaded', function() {
-  document.getElementById('statsPage').style.display = 'none';
-
-  document.querySelectorAll('.ptab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      document.querySelectorAll('.ptab').forEach(t=>t.classList.remove('active'));
-      tab.classList.add('active');
-      const page = tab.dataset.page;
-      document.getElementById('incomePage').style.display = page==='income' ? '' : 'none';
-      document.getElementById('statsPage').style.display = page==='stats' ? '' : 'none';
-      if (page==='stats') renderStats();
-    });
-  });
-
-  document.getElementById('yearTabs2').querySelectorAll('.ytab2').forEach(tab => {
-    tab.addEventListener('click', () => {
-      document.querySelectorAll('.ytab2').forEach(t=>t.classList.remove('active'));
-      tab.classList.add('active');
-      statsYear = tab.dataset.year2;
-      renderStats();
-    });
-  });
-});
+function switchPage(page) {
+  document.getElementById('incomePage').style.display = page === 'income' ? '' : 'none';
+  document.getElementById('statsPage').style.display = page === 'stats' ? '' : 'none';
+  document.getElementById('tabIncome').classList.toggle('active', page === 'income');
+  document.getElementById('tabStats').classList.toggle('active', page === 'stats');
+  if (page === 'stats') renderStats();
+}
 
 // Init
+document.getElementById('statsPage').style.display = 'none';
+document.getElementById('yearTabs2').querySelectorAll('.ytab2').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.ytab2').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    statsYear = tab.dataset.year2;
+    renderStats();
+  });
+});
 renderSummary();
 renderMonthFilter();
 applyFilters();
